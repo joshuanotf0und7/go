@@ -63,6 +63,11 @@ const randomBtn = document.getElementById("randomBtn");
 
 let links = [];
 
+function pickRandom() {
+    if (!links.length) return null;
+    return links[Math.floor(Math.random() * links.length)];
+}
+
 fetch(apiURL)
     .then(res => res.json())
     .then(files => {
@@ -84,8 +89,9 @@ fetch(apiURL)
                 const li = document.createElement("li");
                 const a = document.createElement("a");
 
-                a.textContent = file.name;
+                a.textContent = name;
                 a.href = url;
+                a.target = "_blank"; // open normal links in new tab too
 
                 li.appendChild(a);
                 list.appendChild(li);
@@ -102,9 +108,10 @@ fetch(apiURL)
     });
 
 randomBtn.onclick = () => {
-    if (!links.length) return;
-    const randomLink = links[Math.floor(Math.random() * links.length)];
-    window.location.href = randomLink;
+    const url = pickRandom();
+    if (url) {
+        window.open(url, "_blank"); // open in new tab
+    }
 };
 </script>
 
